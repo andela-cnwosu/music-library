@@ -1,17 +1,15 @@
 module Concerns::Findable
 	
     def find_by_name(name)
-	    all.each do |song|
-	      	if song.name == name
-	        	return song
-	      	end
+	    class_variable_get(:@@all).each do |caller|
+	      	return caller if caller.name == name
 	    end
   	end
 
   	def find_or_create_by_name(name)
-	    search_song = all.select do |song|
-	      	song.name == name
+	    class_variable_get(:@@all).each do |caller|
+	      	return caller if caller.name == name
 	    end
-	    Song.new(name) if !search_song 
+	    create(name) 
   	end
 end

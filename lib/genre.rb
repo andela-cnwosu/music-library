@@ -32,7 +32,7 @@ class Genre
 
   # save a song in the list of songs
   def save
-    Genre.all.push( self )
+    Genre.all.push( self ) if !Genre.all.include?(self)
   end
 
   def artists

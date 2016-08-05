@@ -32,7 +32,7 @@ class Artist
 
   # save an artist in the list of artistes
   def save
-    Artist.all.push( self )
+    Artist.all.push( self ) if !Artist.all.include?(self)
   end
 
   def self.create( name )

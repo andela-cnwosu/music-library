@@ -1,6 +1,6 @@
 class Song
 
-  include Concerns::Findable
+  extend Concerns::Findable
 
   @@all = []
   attr_reader :name, :artist, :genre
@@ -26,8 +26,8 @@ class Song
     #   raise "This is not an artist type"
     # end
     if artist.instance_of? (Artist)
-      @artist = artist
       artist.add_song( self )
+      @artist = artist
     end
   end
 
@@ -35,12 +35,6 @@ class Song
   def genre=( genre )
     if genre.instance_of? (Genre)
       @genre = genre
-      unless genre.songs.include?( self )
-        genre.songs << self
-        genre.inst_artists.add(self.artist)
-      end
-    end
-  end
 
   # retrieve the list of songs
   def self.all
@@ -51,16 +45,41 @@ class Song
   def self.destroy_all
     @@all = []
   end
+      unless genre.songs.include?( self )
+        genre.songs << self
+        genre.inst_artists.add(self.artist)
+      end
+    end
+  end
 
   # save a song in the list of songs
   def save
-    Song.all.push( self )
+    @@all.push( self ) if !@@all.include?(self)
   end
 
-  def self.create( name )
-    song = Song.new( name )
+  def self.create( name, artist = nil, genre = nil )
+    song = Song.new( name, artist, genre )
     song.save
     song
+  end
+
+  def self.new_from_filename(filename)
+    name, artist, genre = split_filename(filename)
+    new(name, artist, genre)
+  end
+
+  def self.create_from_filename(filename)
+    name, artist, genre = split_filename(filename)
+    create(name, artist, genre)
+  end
+
+  def self.split_filename(filename)
+    split_file = filename.split(" - ")
+    song_artist = Artist.find_or_create_by_name(split_file[0]) 
+    song_genre = Genre.find_or_create_by_name(split_file[2].gsub('.mp3', ''))
+    artist=(song_artist)
+    genre=(song_genre)
+    return [split_file[1], artist, genre]
   end
 
 end
