@@ -12,7 +12,7 @@ class MusicLibraryController
   def call
   	begin
       get_input
-    rescue Interrupt => e
+    rescue Interrupt
       process_command "exit"
     end
   end
@@ -41,11 +41,11 @@ class MusicLibraryController
 
   def process_command(command)
     return "There are currently no songs in your library" if Song.all.empty?
-    unless MusicLibraryController.method_defined? command.gsub(' ', '_')
+    unless MusicLibraryController.method_defined? command.tr(' ', '_')
       puts "Invalid command"
       return continue_message
     end
-    send command.gsub(' ', '_')
+    send command.tr(' ', '_')
   end
 
   def list_songs
@@ -104,7 +104,7 @@ class MusicLibraryController
   def get_songs_by_type(type, name)
     genre = type.find_by_name(name)
     song_list = genre.songs.map { |song| format_song song } unless genre.nil?
-    show_results song_list ||= []
+    show_results song_list || []
   end
 
   def help
