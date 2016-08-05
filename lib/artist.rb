@@ -1,17 +1,16 @@
 class Artist
 
   extend Concerns::Findable
-
-  @@all = []
   
+  @@all = []
   attr_reader :name
   attr_accessor :songs, :inst_genres
+
   def initialize( name )
     self.name = name
     @songs = []
     @inst_genres = Set.new
   end
-
   # set the name of the artistes
   def name=( name )
     if name === ""
@@ -47,10 +46,11 @@ class Artist
 
   # add a song to the artist's songs
   def add_song( song )
-    unless song.artist == self && self.songs.include?(song)
-      self.songs.push(song)
+    unless self.songs.include?(song)
+      @songs << song
       self.genres.add(song.genre)
       song.artist = self
     end
   end
 end
+
