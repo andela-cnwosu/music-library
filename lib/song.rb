@@ -3,6 +3,7 @@ class Song
   extend Concerns::Findable
 
   @@all = []
+
   attr_reader :name, :artist, :genre
   def initialize( name, artist = nil , genre = nil )
     self.name = name
@@ -36,6 +37,13 @@ class Song
     if genre.instance_of? (Genre)
       @genre = genre
 
+      unless genre.songs.include?( self )
+        genre.songs << self
+        genre.inst_artists.add(self.artist)
+      end
+    end
+  end
+
   # retrieve the list of songs
   def self.all
     @@all
@@ -45,16 +53,10 @@ class Song
   def self.destroy_all
     @@all = []
   end
-      unless genre.songs.include?( self )
-        genre.songs << self
-        genre.inst_artists.add(self.artist)
-      end
-    end
-  end
 
   # save a song in the list of songs
   def save
-    @@all.push( self ) if !@@all.include?(self)
+    Song.all.push( self ) if !Song.all.include?(self)
   end
 
   def self.create( name, artist = nil, genre = nil )
