@@ -1,87 +1,48 @@
 class Song
 
-  extend Concerns::Findable
+  include Concerns
 
   @@all = []
-  attr_reader :name, :artist, :genre
+  attr_accessor :name
+  attr_reader :artist, :genre
 
-  def initialize( name, artist = nil , genre = nil )
-    @genre = genre if genre.instance_of? (Genre)
-    self.name = name
-    self.artist = artist
-    self.genre = genre
-  end
-
-  # set the name of the song
-  def name=( name )
-    raise "Please include the name of the song" if name === ""
+  def initialize(name, artist = nil , genre = nil)
     @name = name
+    self.artist = artist unless artist.nil?
+    self.genre = genre unless genre.nil?
   end
 
-  # set the artist of the song and add song to the list of artist songs
-  def artist=( artist )
-    if artist.instance_of? (Artist)
-      @artist = artist
-      artist.add_song( self )
-    end
+  def artist=(artist)
+    @artist = artist
+    artist.add_song self
   end
 
-  # set the genre of the song and add song to the list of genre songs
-  def genre=( genre )
-    if genre.instance_of? (Genre)
-      @genre = genre
-      unless genre.songs.include?( self )
-        genre.songs << self
-        genre.inst_artists.add(self.artist)
-      end
-    end
+  def genre=(genre)
+    @genre = genre
+    add_genre_to_artist if @artist
+    add_song_to_genre
+    add_artist_to_genre
   end
 
-  # retrieve the list of songs
-  def self.all
-    @@all
+  def add_genre_to_artist
+    artist.add_genre genre
   end
 
-  # empty the list of songs
-  def self.destroy_all
-    @@all = []
+  def add_song_to_genre
+    genre.add_song self
   end
 
-  # save a song in the list of songs
-  def save
-    @@all << self if !@@all.include?(self)
+  def add_artist_to_genre
+    genre.add_artist artist
   end
 
-  def self.create( name, artist = nil, genre = nil )
-    song = Song.new(name, artist, genre)
-    song.save
-    song
-  end
-
-  # instantiate song from filename
   def self.new_from_filename(filename)
-    name, artist, genre = format_song_params(filename)
-    new(name, artist, genre)
+    formatted_params = format_song_params filename
+    new(formatted_params[0], formatted_params[1], formatted_params[2])
   end
 
-  # save song from filename
   def self.create_from_filename(filename)
-    name, artist, genre = format_song_params(filename)
-    create(name, artist, genre)
-  end
-
-  # find artist and genre models by name and return array
-  def self.format_song_params(filename)
-    name, artist, genre = self.split_filename(filename)
-    artist=(Artist.find_or_create_by_name(artist))
-    genre=(Genre.find_or_create_by_name(genre))
-    return [name, artist, genre]
-  end
-
-  # split file name by delimiter
-  def self.split_filename(filename)
-    split_name = filename.gsub('.mp3', '').split(" - ")
-    return [split_name[1], split_name[0], split_name[2]]
+    new_from_filename(filename).save
   end
 
 end

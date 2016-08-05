@@ -1,32 +1,21 @@
 class MusicImporter
 
-	attr_reader :path
-	attr_accessor :files
+  attr_reader :path
 	
-	def initialize(path)
-		@files = []
-		self.path = path
-	end
+  def initialize(path)
+    self.path = path
+  end
 
-	def path=(path="")
-		if !Dir.exist?(path)
-	    	raise "Please include a valid path of the mp3 files"
-	    end
-	    @path = path
-		Dir.foreach(path) do |file|
-			if file[0] != '.' && file.end_with?("mp3")
-			  @files << file
-			end
-		end
-  	end
+  def path=(path)
+  	raise "Please include a valid path of the mp3 files" if !Dir.exist? path
+  	@path = path
+  end
 
-  	def files
-  		@files
-  	end
+  def files
+    Dir.entries(@path)[2..-1]
+  end
 
-  	def import
-  		self.files.each do |file|
-  			Song.create_from_filename(file)
-  		end
-  	end
+  def import
+    files.each { |file| Song.create_from_filename file }
+  end
 end
