@@ -6,16 +6,14 @@ class Artist
   attr_reader :name
   attr_accessor :songs, :inst_genres
 
-  def initialize( name )
+  def initialize(name)
     self.name = name
     @songs = []
     @inst_genres = Set.new
   end
   # set the name of the artistes
-  def name=( name )
-    if name === ""
-      raise "Please include the name of the song"
-    end
+  def name=(name)
+    raise "Please include the name of the artist" if name === ""
     @name = name
   end
 
@@ -31,15 +29,17 @@ class Artist
 
   # save an artist in the list of artistes
   def save
-    Artist.all.push( self ) if !Artist.all.include?(self)
+    Artist.all << self if !Artist.all.include?(self)
   end
 
-  def self.create( name )
-    artist = Artist.new( name )
+  # create artist by adding to list using #save
+  def self.create(name)
+    artist = Artist.new(name)
     artist.save
     artist
   end
 
+  # return list of genres by artist
   def genres
     @inst_genres
   end

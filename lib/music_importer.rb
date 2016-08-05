@@ -8,11 +8,15 @@ class MusicImporter
 		self.path = path
 	end
 
-	def path=(path)
-	    raise "Please include the path of the mp3 files" if path == ""
+	def path=(path="")
+		if !Dir.exist?(path)
+	    	raise "Please include a valid path of the mp3 files"
+	    end
 	    @path = path
 		Dir.foreach(path) do |file|
-		  files.push(file) if file[0] != '.'
+			if file[0] != '.' && file.end_with?("mp3")
+			  @files << file
+			end
 		end
   	end
 

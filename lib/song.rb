@@ -4,6 +4,7 @@ class Song
 
   @@all = []
   attr_reader :name, :artist, :genre
+
   def initialize( name, artist = nil , genre = nil )
     @genre = genre if genre.instance_of? (Genre)
     self.name = name
@@ -13,7 +14,7 @@ class Song
 
   # set the name of the song
   def name=( name )
-    raise "Please include the name of the song" if name == ""
+    raise "Please include the name of the song" if name === ""
     @name = name
   end
 
@@ -48,7 +49,7 @@ class Song
 
   # save a song in the list of songs
   def save
-    @@all.push( self ) if !@@all.include?(self)
+    @@all << self if !@@all.include?(self)
   end
 
   def self.create( name, artist = nil, genre = nil )
@@ -69,18 +70,18 @@ class Song
     create(name, artist, genre)
   end
 
-  # split file name by delimiter
-  def self.split_filename(filename)
-    split_file = filename.gsub('.mp3', '').split(" - ")
-    return [split_file[1], split_file[0], split_file[2]]
-  end
-
   # find artist and genre models by name and return array
   def self.format_song_params(filename)
     name, artist, genre = self.split_filename(filename)
     artist=(Artist.find_or_create_by_name(artist))
     genre=(Genre.find_or_create_by_name(genre))
     return [name, artist, genre]
+  end
+
+  # split file name by delimiter
+  def self.split_filename(filename)
+    split_name = filename.gsub('.mp3', '').split(" - ")
+    return [split_name[1], split_name[0], split_name[2]]
   end
 
 end
