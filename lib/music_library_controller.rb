@@ -1,4 +1,5 @@
 class MusicLibraryController
+  include Helper, Formatter
   attr_accessor :path, :command
 
   def initialize(path = './db/mp3s')
@@ -23,26 +24,14 @@ class MusicLibraryController
     end
   end
 
-  def begin_message
-    if @command.nil?
-      message = "Hi #{ENV['USER']}, I am your music buddy."\
-        "What would you like me to do for you?\n"\
-        "Type 'help' to view commands"
-      format_message message
-    end
-  end
-
-  def format_message(message)
-    puts "-" * 75, message, "-" * 75
-  end
-
   def process_command(command)
     return "There are currently no songs in your library" if Song.all.empty?
-    unless MusicLibraryController.method_defined? command.tr(' ', '_')
+    command_method = command.tr(' ', '_')
+    unless MusicLibraryController.method_defined? command_method
       puts "Invalid command"
       return continue_message
     end
-    send command.tr(' ', '_')
+    send command_method
   end
 
   def list_songs
@@ -73,19 +62,6 @@ class MusicLibraryController
     continue_message
   end
 
-  def get_track
-    track = Integer(gets.chomp) rescue nil
-    while track.nil? || Song.all.size < track || track < 1
-      puts "Please enter a valid track number"
-      track = Integer(gets.chomp) rescue nil
-    end
-    format_song Song.all[track - 1]
-  end
-
-  def format_song(song)
-    "#{song.artist.name} - #{song.name} - #{song.genre.name}"
-  end
-
   def list_artist
     puts "What is the name of the artist?"
     name = gets.chomp
@@ -96,12 +72,6 @@ class MusicLibraryController
     puts "What type of genre?"
     name = gets.chomp
     get_songs_by_type(Genre, name)
-  end
-
-  def get_songs_by_type(type, name)
-    genre = type.find_by_name(name)
-    song_list = genre.songs.map { |song| format_song song } unless genre.nil?
-    show_results song_list || []
   end
 
   def help
@@ -118,19 +88,5 @@ class MusicLibraryController
 
   def exit
     puts "Have a nice day!"
-  end
-
-  def show_results(result_list)
-    if result_list.empty?
-      puts "No results found."
-      return continue_message
-    end
-    format_message result_list
-    continue_message
-  end
-
-  def continue_message
-    puts "\nWhat else would you like me to do for you? "\
-      "Type 'help' to view commands"
   end
 end

@@ -7,6 +7,7 @@ module Concerns
     base.extend Helper
     base.include InstanceMethods
     base.extend Findable
+    base.extend Formatter
   end
 end
 

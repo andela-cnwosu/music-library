@@ -18,6 +18,6 @@ class Genre
   end
 
   def add_artist(artist)
-    artists.add artist unless artists.include? artist
+    artists.add artist
   end
 end
