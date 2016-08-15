@@ -1,5 +1,4 @@
 class MusicLibraryController
-  extend Concerns::Helper
   attr_accessor :path, :command
 
   def initialize(path = './db/mp3s')

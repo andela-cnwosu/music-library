@@ -1,4 +1,4 @@
-module Concerns::Helper
+module Helper
   def format_song_params(filename)
     split_name = split_filename filename
     artist=(Artist.find_or_create_by_name split_name[1])
