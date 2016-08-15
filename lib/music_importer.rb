@@ -1,14 +1,13 @@
 class MusicImporter
-
   attr_reader :path
-	
+
   def initialize(path)
     self.path = path
   end
 
   def path=(path)
-  	raise "Please include a valid path of the mp3 files" if !Dir.exist? path
-  	@path = path
+    raise "Please include a valid path of the mp3 files" if !Dir.exist? path
+    @path = path
   end
 
   def files

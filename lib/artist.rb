@@ -1,7 +1,5 @@
 class Artist
-
   include Concerns
-  
   @@all = []
   attr_accessor :songs, :name
 

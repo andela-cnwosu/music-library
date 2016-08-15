@@ -1,7 +1,5 @@
 class Genre
-
   include Concerns
-  
   @@all = []
   attr_accessor :songs, :name
   

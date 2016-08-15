@@ -1,16 +1,14 @@
 class MusicLibraryController
-
   extend Concerns::Helper
-
   attr_accessor :path, :command
 
   def initialize(path = './db/mp3s')
-  	@path = path
+    @path = path
     MusicImporter.new(path).import
   end
 
   def call
-  	begin
+    begin
       get_input
     rescue Interrupt
       process_command "exit"
@@ -50,21 +48,21 @@ class MusicLibraryController
 
   def list_songs
     song_list = Song.all.map.with_index(1) do |song, index|
-	    "#{index}. #{format_song(song)}"
+      "#{index}. #{format_song(song)}"
     end
     show_results song_list
   end
 
   def list_artists
     artist_list = Artist.all.map do |artist|
-	    artist.name
+      artist.name
     end
     show_results artist_list
   end
 
   def list_genres
     genre_list = Genre.all.map do |genre|
-	    genre.name
+      genre.name
     end
     show_results genre_list
   end
@@ -109,14 +107,14 @@ class MusicLibraryController
 
   def help
     message = "list songs\tList all songs in your music library",
-  	  "list artists\tList all artist names in your music library",
+      "list artists\tList all artist names in your music library",
       "list genres\tList all song genres in your music library",
-  	  "play song\tPlay a song in your music library",
-  	  "list artist\tList all songs by an artist in your music library",
-  	  "list genre\tList all songs in a genre in your music library",
-  	  "exit\t\tSay GoodBye"
+      "play song\tPlay a song in your music library",
+      "list artist\tList all songs by an artist in your music library",
+      "list genre\tList all songs in a genre in your music library",
+      "exit\t\tSay GoodBye"
     format_message message
-	  continue_message
+    continue_message
   end
 
   def exit
@@ -136,5 +134,4 @@ class MusicLibraryController
     puts "\nWhat else would you like me to do for you? "\
       "Type 'help' to view commands"
   end
-
 end
