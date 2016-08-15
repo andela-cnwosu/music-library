@@ -17,7 +17,6 @@ class MusicLibraryController
 
   def get_input
     begin_message
-    @command = nil
     while @command != "exit"
       @command = gets.chomp.downcase
       process_command @command
