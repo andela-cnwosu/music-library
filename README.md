@@ -1,5 +1,10 @@
 # Music Library
 
+<a href="https://codeclimate.com/github/andela-cnwosu/music-library"><img src="https://codeclimate.com/github/andela-cnwosu/music-library/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/andela-cnwosu/music-library"><img src="https://codeclimate.com/github/andela-cnwosu/music-library/badges/issue_count.svg" /></a>
+[![Build Status](https://travis-ci.org/andela-cnwosu/music-library.svg?branch=master)](https://travis-ci.org/andela-cnwosu/music-library)
+[![Test Coverage](https://codeclimate.com/github/andela-cnwosu/music-library/badges/coverage.svg)](https://codeclimate.com/github/andela-cnwosu/music-library/coverage)
+
 This is a console application that is used to access music files stored in a user’s PC. It gives users the ability to import song names into a playlist, view existing songs and search for songs using keywords. Note that this application does not play actual songs but can be modified to do so.
 
 ## Features
@@ -85,4 +90,3 @@ $ bundle exec rspec spec/001_song_basics_spec.rb
 ###Further Development
 
 This project can be modified to include other functionalities like playing actual songs and importing mp3 files to the playlist.
-
