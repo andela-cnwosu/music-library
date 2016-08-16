@@ -6,4 +6,5 @@ source "https://rubygems.org"
 gem 'rspec'
 gem 'pry'
 gem 'require_all'
-gem "codeclimate-test-reporter", group: :test, require: nil
+gem 'rubocop', '~> 0.42.0'
+gem 'codeclimate-test-reporter', group: :test, require: nil

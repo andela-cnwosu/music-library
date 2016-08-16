@@ -2,7 +2,7 @@ class Genre
   include Concerns
   @@all = []
   attr_accessor :songs, :name
-  
+
   def initialize(name)
     @name = name
     @songs = []

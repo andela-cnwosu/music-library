@@ -11,5 +11,11 @@ module Concerns
       return model if model
       create(name)
     end
+
+    def find_songs_by_name(name)
+      model = find_by_name(name)
+      song_list = model.songs.map { |song| format_song song } unless model.nil?
+      show_results song_list || []
+    end
   end
 end

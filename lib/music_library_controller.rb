@@ -8,14 +8,12 @@ class MusicLibraryController
   end
 
   def call
-    begin
-      get_input
-    rescue Interrupt
-      process_command "exit"
-    end
+    input
+  rescue Interrupt
+    process_command "exit"
   end
 
-  def get_input
+  def input
     begin_message
     while @command != "exit"
       @command = gets.chomp.downcase
@@ -41,17 +39,11 @@ class MusicLibraryController
   end
 
   def list_artists
-    artist_list = Artist.all.map do |artist|
-      artist.name
-    end
-    show_results artist_list
+    Artist.list_names
   end
 
   def list_genres
-    genre_list = Genre.all.map do |genre|
-      genre.name
-    end
-    show_results genre_list
+    Genre.list_names
   end
 
   def play_song
@@ -64,13 +56,13 @@ class MusicLibraryController
   def list_artist
     puts "What is the name of the artist?"
     name = gets.chomp
-    get_songs_by_type(Artist, name)
+    Artist.find_songs_by_name(name)
   end
 
   def list_genre
     puts "What type of genre?"
     name = gets.chomp
-    get_songs_by_type(Genre, name)
+    Genre.find_songs_by_name(name)
   end
 
   def help

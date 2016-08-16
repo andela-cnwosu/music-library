@@ -10,4 +10,9 @@ module ClassMethods
   def create(name)
     new(name).save
   end
+
+  def list_names
+    name_list = all.map &:name
+    show_results name_list
+  end
 end

@@ -1,10 +1,4 @@
 module Helper
-  def get_songs_by_type(type, name)
-    model = type.find_by_name(name)
-    song_list = model.songs.map { |song| format_song song } unless model.nil?
-    show_results song_list || []
-  end
-
   def show_results(result_list)
     if result_list.empty?
       puts "No results found."
@@ -29,11 +23,15 @@ module Helper
   end
 
   def get_track
-    track = Integer(gets.chomp) rescue nil
+    track = convert_to_integer gets.chomp
     while track.nil? || Song.all.size < track || track < 1
       puts "Please enter a valid track number"
-      track = Integer(gets.chomp) rescue nil
+      track = convert_to_integer gets.chomp
     end
     format_song Song.all[track - 1]
+  end
+
+  def convert_to_integer(track)
+    Integer(track) rescue nil
   end
 end
