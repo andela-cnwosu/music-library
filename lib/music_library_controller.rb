@@ -14,7 +14,7 @@ class MusicLibraryController
   end
 
   def input
-    begin_message
+    Message.start
     while @command != "exit"
       @command = gets.chomp.downcase
       process_command @command
@@ -26,7 +26,7 @@ class MusicLibraryController
     command_method = command.tr(' ', '_')
     unless MusicLibraryController.method_defined? command_method
       puts "Invalid command"
-      return continue_message
+      return Message.continue
     end
     send command_method
   end
@@ -50,7 +50,7 @@ class MusicLibraryController
     puts "What is the track number of the song?"
     track = get_track
     puts "Playing #{track}"
-    continue_message
+    Message.continue
   end
 
   def list_artist
@@ -66,15 +66,8 @@ class MusicLibraryController
   end
 
   def help
-    message = "list songs\tList all songs in your music library",
-      "list artists\tList all artist names in your music library",
-      "list genres\tList all song genres in your music library",
-      "play song\tPlay a song in your music library",
-      "list artist\tList all songs by an artist in your music library",
-      "list genre\tList all songs in a genre in your music library",
-      "exit\t\tSay GoodBye"
-    format_message message
-    continue_message
+    Message.help
+    Message.continue
   end
 
   def exit

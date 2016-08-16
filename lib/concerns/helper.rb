@@ -4,22 +4,8 @@ module Helper
       puts "No results found."
       return continue_message
     end
-    format_message result_list
-    continue_message
-  end
-
-  def continue_message
-    puts "\nWhat else would you like me to do for you? "\
-      "Type 'help' to view commands"
-  end
-
-  def begin_message
-    if @command.nil?
-      message = "Hi #{ENV['USER']}, I am your music buddy."\
-        "What would you like me to do for you?\n"\
-        "Type 'help' to view commands"
-      format_message message
-    end
+    Message.format result_list
+    Message.continue
   end
 
   def get_track

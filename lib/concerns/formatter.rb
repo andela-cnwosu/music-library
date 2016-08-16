@@ -14,8 +14,4 @@ module Formatter
   def format_song(song)
     "#{song.artist.name} - #{song.name} - #{song.genre.name}"
   end
-
-  def format_message(message)
-    puts "-" * 75, message, "-" * 75
-  end
 end
