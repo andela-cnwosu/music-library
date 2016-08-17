@@ -2,12 +2,10 @@ class Message
   include Concerns
 
   def self.start
-    if @command.nil?
-      message = "Hi #{ENV['USER']}, I am your music buddy."\
-        "What would you like me to do for you?\n"\
-        "Type 'help' to view commands"
-      format message
-    end
+    message = "Hi #{ENV['USER']}, I am your music buddy."\
+      "What would you like me to do for you?\n"\
+      "Type 'help' to view commands"
+    format message
   end
 
   def self.continue
