@@ -22,10 +22,10 @@ class MusicLibraryController
   end
 
   def process_command(command)
-    return "There are currently no songs in your library" if Song.all.empty?
+    Message.no_songs_error if Song.all.empty?
     command_method = command.tr(' ', '_')
     unless MusicLibraryController.method_defined? command_method
-      puts "Invalid command"
+      Message.invalid_command
       return Message.continue
     end
     send command_method
@@ -47,20 +47,20 @@ class MusicLibraryController
   end
 
   def play_song
-    puts "What is the track number of the song?"
+    Message.ask_track
     track = get_track
     puts "Playing #{track}"
     Message.continue
   end
 
   def list_artist
-    puts "What is the name of the artist?"
+    Message.ask_artist
     name = gets.chomp
     Artist.find_songs_by_name(name)
   end
 
   def list_genre
-    puts "What type of genre?"
+    Message.ask_genre
     name = gets.chomp
     Genre.find_songs_by_name(name)
   end
@@ -71,6 +71,6 @@ class MusicLibraryController
   end
 
   def exit
-    puts "Have a nice day!"
+    Message.exit
   end
 end

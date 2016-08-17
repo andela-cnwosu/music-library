@@ -13,7 +13,7 @@ class Message
   def self.continue
     message = "\nWhat else would you like me to do for you? "\
       "Type 'help' to view commands"
-    format message
+    puts message
   end
 
   def self.help
@@ -29,5 +29,41 @@ class Message
 
   def self.format(message)
     puts "-" * 75, message, "-" * 75
+  end
+
+  def self.no_songs_error
+    format "There are currently no songs in your library"
+  end
+
+  def self.ask_track
+    format "What is the track number of the song?"
+  end
+
+  def self.ask_artist
+    format "What is the name of the artist?"
+  end
+
+  def self.ask_genre
+    format "What type of genre?"
+  end
+
+  def self.exit
+    format "Have a nice day!"
+  end
+
+  def self.invalid_command
+    format "Invalid command"
+  end
+
+  def self.invalid_track
+    format "Please enter a valid track number"
+  end
+
+  def self.empty_result
+    format "No results found."
+  end
+
+  def self.invalid_path
+    format "Please include a valid path of the mp3 files"
   end
 end

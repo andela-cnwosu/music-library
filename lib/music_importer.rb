@@ -6,7 +6,7 @@ class MusicImporter
   end
 
   def path=(path)
-    raise "Please include a valid path of the mp3 files" unless Dir.exist? path
+    return Message.invalid_path unless Dir.exist? path
     @path = path
   end
 
